@@ -1,0 +1,9 @@
+{
+  "firebase": "itunestest",
+  "public": ".",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+  ]
+}
