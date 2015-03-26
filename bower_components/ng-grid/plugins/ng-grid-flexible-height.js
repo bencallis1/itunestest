@@ -1,4 +1,4 @@
-function ngGridFlexibleHeightPlugin (opts) {
+function ngGridFlexibleHeightPlugin(opts) {
     var self = this;
     self.grid = null;
     self.scope = null;
@@ -6,7 +6,9 @@ function ngGridFlexibleHeightPlugin (opts) {
         self.domUtilityService = services.DomUtilityService;
         self.grid = grid;
         self.scope = scope;
-        var recalcHeightForData = function () { setTimeout(innerRecalcForData, 1); };
+        var recalcHeightForData = function () {
+            setTimeout(innerRecalcForData, 1);
+        };
         var innerRecalcForData = function () {
             var gridId = self.grid.gridId;
             var footerPanelSel = '.' + gridId + ' .ngFooterPanel';

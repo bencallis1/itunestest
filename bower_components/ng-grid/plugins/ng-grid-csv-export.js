@@ -5,19 +5,19 @@
 //    download from a data-uri link
 //
 // Notes:  This has not been adequately tested and is very much a proof of concept at this point
-function ngGridCsvExportPlugin (opts) {
+function ngGridCsvExportPlugin(opts) {
     var self = this;
     self.grid = null;
     self.scope = null;
     self.services = null;
-    
+
     opts = opts || {};
     opts.containerPanel = opts.containerPanel || '.ngFooterPanel';
-    opts.linkClass = opts.linkCss || 'csv-data-link-span'; 
+    opts.linkClass = opts.linkCss || 'csv-data-link-span';
     opts.linkLabel = opts.linkLabel || 'CSV Export';
     opts.fileName = opts.fileName || 'Export.csv';
 
-    self.init = function(scope, grid, services) {
+    self.init = function (scope, grid, services) {
         self.grid = grid;
         self.scope = scope;
         self.services = services;
@@ -31,42 +31,42 @@ function ngGridCsvExportPlugin (opts) {
                     return '' + str;
                 }
                 if (typeof(str) === 'boolean') {
-                    return (str ? 'TRUE' : 'FALSE') ;
+                    return (str ? 'TRUE' : 'FALSE');
                 }
                 if (typeof(str) === 'string') {
-                    return str.replace(/"/g,'""');
+                    return str.replace(/"/g, '""');
                 }
 
-                return JSON.stringify(str).replace(/"/g,'""');
+                return JSON.stringify(str).replace(/"/g, '""');
             }
 
             var keys = [];
             var csvData = '';
-            for (var f in grid.config.columnDefs) { 
-                if (grid.config.columnDefs.hasOwnProperty(f))
-                {   
+            for (var f in grid.config.columnDefs) {
+                if (grid.config.columnDefs.hasOwnProperty(f)) {
                     keys.push(grid.config.columnDefs[f].field);
-                    csvData += '"' ;
-                    if(typeof grid.config.columnDefs[f].displayName !== 'undefined'){/** moved to reduce looping and capture the display name if it exists**/
+                    csvData += '"';
+                    if (typeof grid.config.columnDefs[f].displayName !== 'undefined') {
+                        /** moved to reduce looping and capture the display name if it exists**/
                         csvData += csvStringify(grid.config.columnDefs[f].displayName);
                     }
-                    else{
+                    else {
                         csvData += csvStringify(grid.config.columnDefs[f].field);
                     }
-                    csvData +=  '",';
-                }   
-            }   
-            
+                    csvData += '",';
+                }
+            }
+
             function swapLastCommaForNewline(str) {
-                var newStr = str.substr(0,str.length - 1);
+                var newStr = str.substr(0, str.length - 1);
                 return newStr + "\n";
             }
-            
+
             csvData = swapLastCommaForNewline(csvData);
             var gridData = grid.data;
             for (var gridRow in gridData) {
                 var rowData = '';
-                for ( var k in keys) {
+                for (var k in keys) {
                     var curCellRaw;
 
                     if (opts != null && opts.columnOverrides != null && opts.columnOverrides[keys[k]] != null) {
@@ -82,15 +82,18 @@ function ngGridCsvExportPlugin (opts) {
             }
             var fp = grid.$root.find(opts.containerPanel);
             var csvDataLinkPrevious = grid.$root.find(opts.containerPanel + ' .' + opts.linkClass);
-            if (csvDataLinkPrevious != null) {csvDataLinkPrevious.remove() ; }
+            if (csvDataLinkPrevious != null) {
+                csvDataLinkPrevious.remove();
+            }
             var csvDataLinkHtml = '<span class="' + opts.linkClass + '">';
             csvDataLinkHtml += '<br><a href="data:text/csv;charset=UTF-8,';
             csvDataLinkHtml += encodeURIComponent(csvData);
-            csvDataLinkHtml += '" download="' + opts.fileName + '">' + opts.linkLabel + '</a></br></span>' ;
+            csvDataLinkHtml += '" download="' + opts.fileName + '">' + opts.linkLabel + '</a></br></span>';
             fp.append(csvDataLinkHtml);
         }
+
         setTimeout(showDs, 0);
-        scope.catHashKeys = function() {
+        scope.catHashKeys = function () {
             var hash = '';
             for (var idx in scope.renderedRows) {
                 hash += scope.renderedRows[idx].$$hashKey;

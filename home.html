@@ -1,0 +1,37 @@
+<md-toolbar>
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div id="myContainer">
+
+                <form class="navbar-form navbar-left" role="search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search iTunes"
+                               ng-model="defaultInfo.search" ng-change="getAjaxSong(defaultInfo.search)">
+                    </div>
+                </form>
+                <label>
+                    <select class="form-control" ng-model="defaultInfo.mediaType" ng-change="getAjaxSong()">
+                        <option value="all" selected="">All</option>
+                        <option value="musicVideo" selected="">Music Video</option>
+                        <option value="movie">Movie</option>
+                        <option value="musicTrack">Music</option>
+                        <option value="podcast">Podcast</option>
+                        <option value="tvShow">TV Show</option>
+                    </select>
+                </label>
+            </div>
+            <div id="right_stuff">
+                <label>Sort by
+                    <select class="input-mediumng form-control" ng-model="defaultInfo.sortBy"
+                            ng-change="updateSortInfo()">
+                        <option value="Song">Media Item Name</option>
+                        <option value="Artist">Artist</option>
+                        <option value="Collection">Collection Name</option>
+                        <option value="Type" selected="">Media Type</option>
+                    </select>
+                </label>
+                <input type="text" class="form-control" placeholder="Search Data" ng-model="filterOptions.filterText">
+            </div>
+        </div>
+    </div>
+</md-toolbar>
